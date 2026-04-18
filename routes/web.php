@@ -11,6 +11,7 @@ use App\Http\Controllers\Organizer\OrganizerEventController;
 
 /* PUBLIC ROUTES */
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
 Route::get('/rss', [FeedController::class, 'rss'])->name('rss');
 Route::get('/sitemap.xml', [FeedController::class, 'sitemap'])->name('sitemap');

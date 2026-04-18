@@ -1,66 +1,126 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BHOPAL.INFO — CONTEXT MANAGEMENT SYSTEM
+## How to Use These Files
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+## FILE INDEX
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| File | Purpose | Upload To |
+|---|---|---|
+| `00_ANCHOR_DOC.md` | Global frozen decisions — paste into EVERY project | All 7 projects |
+| `01_PILLAR_EVENTS_ENGINE.md` | Events CRUD, RSVP, organizer dashboard | Project: Events Engine |
+| `02_PILLAR_NEWS_MODULE.md` | News publishing, editorial workflow, geo alerts | Project: News Module |
+| `03_PILLAR_PAYMENTS_COMMISSION.md` | Commission logic, webhook handling, payment flow | Project: Payments |
+| `04_PILLAR_SETTLEMENT_REFUNDS_MONITORING.md` | Settlement cron, refunds, reconciliation, alerts | Project: Settlement |
+| `05_PILLAR_TRUST_GOVERNANCE.md` | Trust scoring, badges, RBAC, governance charter | Project: Trust & Governance |
+| `06_PILLAR_QR_CHECKIN.md` | QR validation, gate check-in, scan logs | Project: QR & Check-in |
+| `07_PILLAR_INFRASTRUCTURE_SECURITY.md` | CI/CD, security, backups, disaster recovery | Project: Infrastructure |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## HOW TO SET UP EACH PROJECT
 
-## Learning Laravel
+1. Create a new Claude Project for each pillar
+2. Upload `00_ANCHOR_DOC.md` to every project
+3. Upload the pillar-specific `.md` file to that project
+4. Start conversations inside the project — context is auto-loaded
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Starting prompt template for each conversation:**
+```
+Context: Anchor doc and [pillar name] context file are uploaded.
+Task: [Your specific question or build task]
+Scope: Stay within this pillar only. Do not redesign decisions from the anchor doc.
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## CROSS-PILLAR WORK
 
-## Laravel Sponsors
+When a decision touches two pillars (e.g., how Events Engine links to News Module):
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Open a temporary conversation (not a project)
+2. Paste both relevant pillar files + anchor doc
+3. Decide and document the outcome
+4. Update the "Frozen Decisions" or "Open Questions" section in BOTH affected pillar files
+5. Close the temporary conversation
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## MAINTENANCE RULES
 
-## Contributing
+**Update a pillar file when:**
+- A decision gets made (move from Open Questions → Frozen Decisions)
+- A new table or field is added
+- A service class is created or renamed
+- A phase moves from Planned → Active
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Update the anchor doc when:**
+- A truly global decision changes (very rare)
+- A new shared table is added
+- A new RBAC role is formalized
 
-## Code of Conduct
+**Never:**
+- Redesign anchor doc decisions inside a pillar conversation
+- Keep decisions only in chat history — always write them back to the files
+- Start a new conversation without loading both anchor + pillar files
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## AUDIT STATUS
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Pillar | Source Documents Audited | Status |
+|---|---|---|
+| Anchor Doc | Events Engine + News Module + Infrastructure 2026 | ✅ Complete |
+| Events Engine | Events Engine PDF | ✅ Complete |
+| News Module | News Module PDF | ✅ Complete |
+| Payments & Commission | Events Engine PDF (commission sections) | ✅ Complete |
+| Settlement & Monitoring | Events Engine PDF (settlement sections) | ✅ Complete |
+| Trust & Governance | Events Engine PDF (trust sections) | ✅ Complete |
+| QR & Check-in | Events Engine PDF (QR sections) | ✅ Complete |
+| Infrastructure | Infrastructure 2026 PDF | ✅ Complete |
 
-## License
+**Not yet incorporated (visual files — require manual review):**
+- BHOPAL_INFO_ERD_v4_0_COMPLETE_RELATIONAL_ARCHITECTURE.pdf — visual ERD
+- BHOPAL_INFO_ERD_v4_0_VISUAL_DIAGRAM_INVESTOR_READY.pdf — visual diagram
+- Event_ER_Diagram.pdf — event-specific ERD
+- ChatGPT_Image_Feb_22_2026_11_19_36_AM.pdf — image file
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Action needed:** Review visual ERD files manually and check if any table fields or relationships are missing from the pillar context files. Update affected pillar files if gaps are found.
+
+---
+
+## WHAT THESE FILES DO NOT COVER YET
+
+The following modules exist in the infrastructure blueprint but do not have their own pillar files yet. Create them when ready to build:
+
+| Module | Blueprint Reference |
+|---|---|
+| Business Directory Engine | Infrastructure 2026 doc |
+| Contest Engine | Infrastructure 2026 doc |
+| BCC Vertical | Infrastructure 2026 doc |
+| Distribution Engine (social push, newsletter, RSS) | Infrastructure 2026 + News Module |
+| Analytics & Reporting Engine | Infrastructure 2026 doc |
+| Mobile App | Year 3 roadmap |
+
+---
+
+*Last updated: April 2026 — Initial audit complete*
+
+---
+
+## UPDATE — April 2026
+
+**Pillar 7 updated** — Reflects actual AWS EC2 dev environment, dev.sh workflow, current risks (no SSL, no automated backup), and Phase 2 upgrade path.
+
+**Pillar 8 added** — Theme Engine & Theme Management CMS. Includes full architectural review of current `modern2026` theme folder, identified gaps, correct long-term architecture with ThemeService, fallback system, themes DB table, and Theme Management Admin CMS vision.
+
+**New files:**
+| File | Purpose |
+|---|---|
+| `07_PILLAR_INFRASTRUCTURE_SECURITY.md` | Updated v2 with actual server state |
+| `08_PILLAR_THEME_ENGINE.md` | New — Theme architecture + CMS |
+
+**Immediate actions flagged:**
+- Install SSL certificate on EC2 (urgent — currently HTTP)
+- Schedule backup_db.sh as cron job (urgent)
+- Audit existing modern2026 theme folder before building Theme Engine
