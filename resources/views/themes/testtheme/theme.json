@@ -1,0 +1,9 @@
+{
+  "key": "Test Theme",
+  "name": "Test Theme",
+  "slug": "testtheme",
+  "version": "0.1",
+  "author": "Internal",
+  "description": "Experimental theme for testing UI variations.",
+  "preview": "/themes/testtheme/preview.jpg"
+}

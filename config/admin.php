@@ -1,0 +1,1 @@
+<?php return ['require_admin_2fa' => false, 'audit_level' => 'strict'];
