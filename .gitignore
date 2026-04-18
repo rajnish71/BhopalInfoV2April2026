@@ -1,119 +1,26 @@
-# =========================
-
-# ENVIRONMENT FILES
-
-# =========================
-
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
 .env
 .env.*
 !.env.example
-
-# =========================
-
-# DEPENDENCIES
-
-# =========================
-
-/vendor/
-/node_modules/
-
-# =========================
-
-# LARAVEL STORAGE
-
-# =========================
-
-/storage/*
-!/storage/app/
-!/storage/app/public/
-!/storage/framework/
-!/storage/framework/cache/
-!/storage/framework/sessions/
-!/storage/framework/views/
-!/storage/logs/
-
-# =========================
-
-# LARAVEL CACHE
-
-# =========================
-
-/bootstrap/cache/*
-!/bootstrap/cache/.gitignore
-
-# =========================
-
-# PUBLIC BUILD FILES
-
-# =========================
-
-/public/build/
-/public/hot
-
-# =========================
-
-# LOGS & DEBUG
-
-# =========================
-
-*.log
-npm-debug.log
-yarn-error.log
-
-# =========================
-
-# DATABASE & BACKUPS
-
-# =========================
-
-*.sql
-*.tar.gz
-backup_*
-
-# =========================
-
-# SYSTEM FILES
-
-# =========================
-
-.DS_Store
-Thumbs.db
-
-# =========================
-
-# IDE / EDITOR
-
-# =========================
-
-/.vscode/
-/.idea/
-/.fleet/
-/.zed/
-
-# =========================
-
-# TESTING / TOOLING
-
-# =========================
-
-.phpunit.cache
-.phpunit.result.cache
 .phpactor.json
-
-# =========================
-
-# AUTH / SECRETS
-
-# =========================
-
-auth.json
-
-# =========================
-
-# OPTIONAL (LOCAL DEV)
-
-# =========================
-
+.phpunit.result.cache
 Homestead.json
 Homestead.yaml
-
+npm-debug.log
+yarn-error.log
+/auth.json
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+*.log
+*.sql
+*.tar.gz

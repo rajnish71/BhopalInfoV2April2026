@@ -35,7 +35,7 @@
             </div>
 
     <div class="mb-12 aspect-video bg-gray-100">
-        <img src="{{ $post->featured_image && file_exists(public_path('storage/'.$post->featured_image)) ? asset('storage/'.$post->featured_image) : 'https://via.placeholder.com/800x400' }}" class="w-full h-full object-cover">
+        <img src="{{ $post->featured_image && file_exists(public_path('storage/'.$post->featured_image)) ? asset('storage/'.$post->featured_image) : asset('images/hero.jpg') }}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='{{ asset('images/hero.jpg') }}';">
     </div>
             <div class="grid grid-cols-12 gap-12">
                 <div class="col-span-8">

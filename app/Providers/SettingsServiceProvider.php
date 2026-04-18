@@ -11,16 +11,21 @@ class SettingsServiceProvider extends ServiceProvider
 {
     public function register(): void {}
 
-    public function boot(): void
-    {
-        $settings = Cache::rememberForever('site_settings', function () {
-            try {
-                return Setting::all()->pluck('value', 'key');
-            } catch (\Exception $e) {
-                return collect();
-            }
-        });
-
-        View::share('site', $settings);
+public function boot(): void
+{
+    if ($this->app->runningInConsole()) {
+        return;
     }
+
+    $settings = Cache::rememberForever('site_settings', function () {
+        try {
+            return Setting::all()->pluck('value', 'key');
+        } catch (\Exception $e) {
+            return collect();
+        }
+    });
+
+    View::share('site', $settings);
+}
+
 }

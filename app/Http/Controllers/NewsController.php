@@ -9,7 +9,7 @@ class NewsController extends Controller
 {
     public function show($slug)
     {
-            $news = NewsPost::findOrFail($slug);
-	    return view('news.show', ['post' => $news]);
+        $news = NewsPost::where('slug', $slug)->orWhere('id', $slug)->firstOrFail();
+        return view('news.show', ['post' => $news]);
     }
 }

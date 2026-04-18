@@ -112,6 +112,13 @@
             <div class="flex items-center space-x-4">
                 <span class="text-sm text-gray-600">Admin User</span>
                 <div class="h-8 w-8 bg-[#B71C1C] rounded-full"></div>
+                
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="bg-[#B71C1C] text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:opacity-90 transition-opacity">
+                        Logout
+                    </button>
+                </form>
             </div>
         </header>
 
