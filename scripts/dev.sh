@@ -1,39 +1,33 @@
 #!/bin/bash
 
-echo "📁 Bhopal.info Dev Workflow"
-echo "----------------------------------"
+echo "📁 Bhopal.info Dev Workflow Activation"
+echo "--------------------------------------"
+
+# 1. Switch to dev environment
+echo "🔄 1. Switching to dev environment..."
+./scripts/env.sh dev
+
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to switch to dev environment."
+    exit 1
+fi
 
 # Ensure we are in correct branch
 CURRENT_BRANCH=$(git branch --show-current)
 echo "🔀 Current branch: $CURRENT_BRANCH"
 
-# Pull latest changes
-echo "⬇️ Pulling latest changes..."
-git pull origin $CURRENT_BRANCH
+# 2. Pull latest code from repository
+echo "⬇️ 2. Pulling latest code from origin/$CURRENT_BRANCH..."
+git pull origin "$CURRENT_BRANCH"
 
-# Show status
-echo "📊 Current changes:"
-git status
+# 3. Run migrations
+echo "🗄️ 3. Running database migrations..."
+php artisan migrate --force
 
-# Ask for confirmation
-read -p "👉 Continue with commit? (y/n): " confirm
-if [ "$confirm" != "y" ]; then
-  echo "❌ Aborted"
-  exit 1
-fi
+# 4. Prepare system for development
+echo "🛠️ 4. Preparing system for development..."
+composer install --no-interaction
+npm install
+npm run build
 
-# Add files
-echo "➕ Adding files..."
-git add .
-
-# Commit message
-read -p "📝 Enter commit message: " msg
-
-# Commit
-git commit -m "$msg"
-
-# Push
-echo "�� Pushing to origin/$CURRENT_BRANCH..."
-git push origin $CURRENT_BRANCH
-
-echo "✅ Done successfully!"
+echo "✅ Dev environment is fully prepared and active!"
