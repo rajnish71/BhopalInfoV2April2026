@@ -8,6 +8,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\Organizer\OrganizerEventController;
+use App\Http\Controllers\Admin\EventController as AdminEventController;
 
 /* PUBLIC ROUTES */
 Route::get('/', [HomeController::class, 'index']);
@@ -30,6 +31,14 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/theme', [SettingController::class, 'updateTheme'])->name('theme.update');
     Route::post('/theme/sections', [SettingController::class, 'updateSections'])->name('theme.sections.update');
     Route::post('/theme/settings', [SettingController::class, 'updateSectionSettings'])->name('theme.settings.update');
+
+    // Events management
+    Route::get('/events', [AdminEventController::class, 'index'])->name('events.index');
+    Route::post('/events', [AdminEventController::class, 'store'])->name('events.store');
+    Route::put('/events/{event}', [AdminEventController::class, 'update'])->name('events.update');
+    Route::post('/events/{event}/verify', [AdminEventController::class, 'verify'])->name('events.verify');
+    Route::post('/events/{event}/publish', [AdminEventController::class, 'publish'])->name('events.publish');
+    Route::post('/events/{event}/archive', [AdminEventController::class, 'archive'])->name('events.archive');
 });
 
 /* ORGANIZER */

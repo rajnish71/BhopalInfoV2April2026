@@ -7,6 +7,11 @@ use App\Models\User;
 
 class EventPolicy
 {
+    private function isSuperAdmin(User $user): bool
+    {
+        return $user->hasRole('super-admin');
+    }
+
     public function view(?User $user, Event $event): bool
     {
         return true;
@@ -19,29 +24,35 @@ class EventPolicy
 
     public function update(User $user, Event $event): bool
     {
-        // Creator or Director can update
-        if ($user->id === $event->created_by || $user->hasRole('Director')) {
-            // Cannot edit archived
+        if ($this->isSuperAdmin($user)) {
+            return $event->publish_status !== 'archived';
+        }
+
+        if ($user->id === $event->created_by) {
             return $event->publish_status !== 'archived';
         }
 
         return false;
     }
 
+    public function verify(User $user, Event $event): bool
+    {
+        return $this->isSuperAdmin($user);
+    }
+
     public function publish(User $user, Event $event): bool
     {
-        // Only Director or Editorial Lead
-        if (!$user->hasAnyRole(['Director', 'Editorial Lead'])) {
+        if (!$this->isSuperAdmin($user)) {
             return false;
         }
 
-        // Only review-stage events can be published
-        return $event->publish_status === 'review';
+        return $event->publish_status === 'review'
+            && $event->verification_status === 'verified';
     }
 
     public function archive(User $user, Event $event): bool
     {
-        if (!$user->hasAnyRole(['Director', 'Editorial Lead'])) {
+        if (!$this->isSuperAdmin($user)) {
             return false;
         }
 
@@ -50,7 +61,6 @@ class EventPolicy
 
     public function delete(User $user, Event $event): bool
     {
-        // Hard delete disabled — archive only
         return false;
     }
 }

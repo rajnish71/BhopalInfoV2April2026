@@ -11,9 +11,11 @@ class EventController extends Controller
 {
     public function index()
     {
-        return Event::with(['category', 'organizer'])
+        $events = Event::with(['category', 'organizer'])
             ->latest()
             ->paginate(20);
+
+        return view('admin.events.index', compact('events'));
     }
 
     public function store(Request $request)
@@ -21,29 +23,30 @@ class EventController extends Controller
         $this->authorize('create', Event::class);
 
         $validated = $request->validate([
-            'city_id' => 'required|exists:cities,id',
+            'city_id'           => 'required|exists:cities,id',
             'event_category_id' => 'required|exists:event_categories,id',
-            'organizer_id' => 'required|exists:event_organizers,id',
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'venue_name' => 'required|string|max:255',
-            'start_datetime' => 'required|date|after_or_equal:now',
-            'end_datetime' => 'nullable|date|after:start_datetime',
+            'organizer_id'      => 'required|exists:event_organizers,id',
+            'title'             => 'required|string|max:255',
+            'description'       => 'required|string',
+            'venue_name'        => 'required|string|max:255',
+            'start_datetime'    => 'required|date|after_or_equal:now',
+            'end_datetime'      => 'nullable|date|after:start_datetime',
         ]);
 
-        $validated['created_by'] = auth()->id();
-        $validated['publish_status'] = 'draft';
+        $validated['created_by']          = auth()->id();
+        $validated['publish_status']      = 'draft';
         $validated['verification_status'] = 'pending';
 
         $event = Event::create($validated);
 
         EventStatusLog::create([
-            'event_id' => $event->id,
-            'action' => 'created',
+            'event_id'     => $event->id,
+            'action'       => 'created',
             'performed_by' => auth()->id(),
         ]);
 
-        return $event;
+        return redirect()->route('admin.events.index')
+            ->with('success', 'Event created.');
     }
 
     public function update(Request $request, Event $event)
@@ -55,43 +58,39 @@ class EventController extends Controller
         }
 
         $validated = $request->validate([
-            'title' => 'sometimes|string|max:255',
-            'description' => 'sometimes|string',
-            'venue_name' => 'sometimes|string|max:255',
+            'title'          => 'sometimes|string|max:255',
+            'description'    => 'sometimes|string',
+            'venue_name'     => 'sometimes|string|max:255',
             'start_datetime' => 'sometimes|date',
-            'end_datetime' => 'nullable|date|after:start_datetime',
+            'end_datetime'   => 'nullable|date|after:start_datetime',
         ]);
 
         $event->update($validated);
 
         EventStatusLog::create([
-            'event_id' => $event->id,
-            'action' => 'updated',
+            'event_id'     => $event->id,
+            'action'       => 'updated',
             'performed_by' => auth()->id(),
         ]);
 
-        return $event;
+        return redirect()->route('admin.events.index')
+            ->with('success', 'Event updated.');
     }
 
-    public function submit(Event $event)
+    public function verify(Event $event)
     {
-        $this->authorize('update', $event);
+        $this->authorize('verify', $event);
 
-        if ($event->publish_status !== 'draft') {
-            abort(422, 'Only draft events can be submitted.');
-        }
-
-        $event->update([
-            'publish_status' => 'review',
-        ]);
+        $event->update(['verification_status' => 'verified']);
 
         EventStatusLog::create([
-            'event_id' => $event->id,
-            'action' => 'submitted',
+            'event_id'     => $event->id,
+            'action'       => 'verified',
             'performed_by' => auth()->id(),
         ]);
 
-        return response()->json(['message' => 'Event submitted for review']);
+        return redirect()->route('admin.events.index')
+            ->with('success', 'Event verified.');
     }
 
     public function publish(Event $event)
@@ -99,45 +98,41 @@ class EventController extends Controller
         $this->authorize('publish', $event);
 
         if ($event->publish_status !== 'review') {
-            abort(422, 'Only events under review can be published.');
+            return back()->with('error', 'Only events under review can be published.');
         }
 
         if ($event->verification_status !== 'verified') {
-            abort(422, 'Event must be verified before publishing.');
+            return back()->with('error', 'Event must be verified before publishing.');
         }
 
         $event->update([
             'publish_status' => 'published',
-            'approved_by' => auth()->id(),
+            'approved_by'    => auth()->id(),
         ]);
 
         EventStatusLog::create([
-            'event_id' => $event->id,
-            'action' => 'published',
+            'event_id'     => $event->id,
+            'action'       => 'published',
             'performed_by' => auth()->id(),
         ]);
 
-        return response()->json(['message' => 'Event published']);
+        return redirect()->route('admin.events.index')
+            ->with('success', 'Event published.');
     }
 
     public function archive(Event $event)
     {
         $this->authorize('archive', $event);
 
-        if ($event->publish_status !== 'published') {
-            abort(422, 'Only published events can be archived.');
-        }
-
-        $event->update([
-            'publish_status' => 'archived',
-        ]);
+        $event->update(['publish_status' => 'archived']);
 
         EventStatusLog::create([
-            'event_id' => $event->id,
-            'action' => 'archived',
+            'event_id'     => $event->id,
+            'action'       => 'archived',
             'performed_by' => auth()->id(),
         ]);
 
-        return response()->json(['message' => 'Event archived']);
+        return redirect()->route('admin.events.index')
+            ->with('success', 'Event archived.');
     }
 }
