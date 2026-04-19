@@ -8,16 +8,20 @@ class EventController extends Controller
 {
     public function index()
     {
-        return Event::published()
+        $events = Event::published()
             ->upcoming()
             ->orderBy('start_datetime', 'asc')
             ->paginate(10);
+
+        return view('events.index', compact('events'));
     }
 
     public function show($slug)
     {
-        return Event::published()
+        $event = Event::published()
             ->where('slug', $slug)
             ->firstOrFail();
+
+        return view('events.show', compact('event'));
     }
 }

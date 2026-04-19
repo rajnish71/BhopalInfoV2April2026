@@ -1,6 +1,6 @@
 <div style="display:flex; justify-content:space-between; align-items:center; padding:18px 0; border-bottom:1px solid #eee;">
 
-    <div style="display:flex; align-items:center; gap:12px;">
+    <a href="/" style="display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit;">
         <img src="{{ asset('images/logo-main.png') }}" style="height:44px;">
 
         <div>
@@ -9,7 +9,7 @@
                 What Bhopal Needs to Know — ज़रूरी है जानना
             </div>
         </div>
-    </div>
+    </a>
 
     <div style="display:flex; gap:20px;">
         <a href="/events">Events</a>

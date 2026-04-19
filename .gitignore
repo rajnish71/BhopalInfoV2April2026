@@ -25,3 +25,9 @@ yarn-error.log
 *.sql
 *.tar.gz
 storage/app/public/
+
+# Project docs and backups (stored outside app root)
+*.sql
+*.md
+!README.md
+tree.txt
